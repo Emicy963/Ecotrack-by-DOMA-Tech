@@ -1,24 +1,60 @@
 # Sustainable Actions API
 
 ## Sobre o Projeto
-Este projeto é uma API desenvolvida em Django e Django REST Framework para gerenciar a criação e execução de ações sustentáveis.
+Este projeto é uma API desenvolvida em Django e Django REST Framework para gerenciar a criação e execução de ações sustentáveis. O sistema permite que usuários registrem e acompanhem suas ações sustentáveis, contribuindo para um mundo mais consciente ambientalmente.
 
 ## Tecnologias Utilizadas
-- Python 3
+- Python 3.12
 - Django 5.0.2
 - Django REST Framework
 - PostgreSQL (ambiente de produção)
 - SQLite (ambiente de desenvolvimento)
 - JWT para autenticação
 - CORS Headers
+- drf-yasg para documentação Swagger
+- WhiteNoise para servir arquivos estáticos
+- Gunicorn como servidor WSGI
 
 ## Funcionalidades
 - Cadastro e gerenciamento de usuários
-- Autenticação via JWT
+- Autenticação via JWT (JSON Web Tokens)
 - Criação e gestão de ações sustentáveis
-- Documentação da API via Swagger
+- Documentação interativa da API via Swagger/ReDoc
+- Sistema de refresh token
+- Proteção CORS configurada
+- Interface administrativa Django
+
+## Endpoints da API
+
+### Autenticação
+- `POST /api/token/` - Obter token de acesso
+- `POST /api/token/refresh/` - Renovar token de acesso
+
+### Usuários
+- `POST /api/users/register/` - Registro de novo usuário
+- `GET /api/users/profile/` - Obter perfil do usuário
+- `PUT /api/users/profile/` - Atualizar perfil do usuário
+
+### Ações Sustentáveis
+- `GET /api/actions/` - Listar ações sustentáveis
+- `POST /api/actions/` - Criar nova ação sustentável
+- `GET /api/actions/{id}/` - Detalhes de uma ação específica
+- `PUT /api/actions/{id}/` - Atualizar ação
+- `DELETE /api/actions/{id}/` - Deletar ação
+
+### Documentação
+- `/swagger/` - Documentação Swagger UI
+- `/redoc/` - Documentação ReDoc
+- `/swagger.json` - Documentação no formato JSON
 
 ## Como Rodar o Projeto
+
+### Localmente
+1. Clone este repositório:
+   ```sh
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+
 1. Clone este repositório:
    ```sh
    git clone https://github.com/seu-usuario/seu-repositorio.git
