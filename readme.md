@@ -50,15 +50,11 @@ Este projeto é uma API desenvolvida em Django e Django REST Framework para gere
 ## Como Rodar o Projeto
 
 ### Localmente
-1. Clone este repositório:
-   ```sh
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
 
 1. Clone este repositório:
    ```sh
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone https://github.com/Emicy963/Ecotrack-by-DOMA-Tech
+   cd Ecotrack
    ```
 2. Crie e ative um ambiente virtual:
    ```sh
@@ -91,4 +87,4 @@ Este projeto é uma API desenvolvida em Django e Django REST Framework para gere
 A documentação interativa pode ser acessada em `http://127.0.0.1:8000/swagger/`.
 
 ## Autor
-- [Seu Nome](https://github.com/seu-usuario)
+- [domagtech2023@gmail.com](domagtech2023@gmail.com)
