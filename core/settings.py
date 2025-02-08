@@ -20,7 +20,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = 'ecotrack-domag-tech.onrender.com'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'ecotrack-domag-tech.onrender.com').split(',')
 
 # Application definition
 
