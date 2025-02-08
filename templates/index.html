@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ações Sustentáveis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <h1 class="text-2xl font-bold mb-4">Ações Sustentáveis</h1>
+            
+            <!-- Login Form -->
+            <div v-if="!token" class="mb-6">
+                <h2 class="text-xl mb-4">Login</h2>
+                <input v-model="loginData.username" type="text" placeholder="Usuário" class="border p-2 mb-2 w-full">
+                <input v-model="loginData.password" type="password" placeholder="Senha" class="border p-2 mb-2 w-full">
+                <button @click="login" class="bg-blue-500 text-white px-4 py-2 rounded">Entrar</button>
+            </div>
+
+            <!-- Actions Form -->
+            <div v-if="token" class="mb-6">
+                <h2 class="text-xl mb-4">Nova Ação</h2>
+                <input v-model="newAction.title" type="text" placeholder="Título" class="border p-2 mb-2 w-full">
+                <textarea v-model="newAction.description" placeholder="Descrição" class="border p-2 mb-2 w-full"></textarea>
+                <select v-model="newAction.category" class="border p-2 mb-2 w-full">
+                    <option value="RECYCLING">Reciclagem</option>
+                    <option value="ENERGY">Energia</option>
+                    <option value="WATER">Água</option>
+                    <option value="MOBILITY">Mobilidade</option>
+                </select>
+                <input v-model="newAction.points" type="number" placeholder="Pontos" class="border p-2 mb-2 w-full">
+                <button v-if="newAction.id" @click="updateAction" class="bg-yellow-500 text-white px-4 py-2 rounded">Atualizar</button>
+                <button v-else @click="createAction" class="bg-green-500 text-white px-4 py-2 rounded">Salvar</button>
+            </div>
+
+            <!-- Actions List -->
+            <div v-if="token" class="mt-6">
+                <h2 class="text-xl mb-4">Minhas Ações</h2>
+                <div v-for="action in actions" :key="action.id" class="border p-4 mb-2 rounded">
+                    <h3 class="font-bold">{{ action.title }}</h3>
+                    <p>{{ action.description }}</p>
+                    <p class="text-sm text-gray-600">
+                        Categoria: {{ action.category }} | Pontos: {{ action.points }}
+                    </p>
+                    <button @click="deleteAction(action.id)" class="text-red-500 text-sm">Excluir</button>
+                    <br>
+                    <button @click="editAction(action)" class="text-blue-500 text-sm">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    token: null,
+                    loginData: {
+                        username: '',
+                        password: ''
+                    },
+                    newAction: {
+                        title: '',
+                        description: '',
+                        category: 'RECYCLING',
+                        points: 0
+                    },
+                    actions: []
+                }
+            },
+            methods: {
+                async login() {
+                    try {
+                        const response = await axios.post('/api/token/', this.loginData)
+                        this.token = response.data.access
+                        axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+                        this.fetchActions()
+                    } catch (error) {
+                        console.error(error.response)
+                        alert('Erro ao fazer login')
+                    }
+                },
+                async fetchActions() {
+                    try {
+                        const response = await axios.get('/api/actions/')
+                        this.actions = response.data
+                    } catch (error) {
+                        console.error('Erro ao buscar ações:', error)
+                    }
+                },
+                async createAction() {
+                    try {
+                        console.log(this.newAction);
+                        await axios.post('/api/actions/', this.newAction, {
+                            headers: { Authorization: `Bearer ${this.token}` }
+                        });
+                        this.newAction = {
+                            title: '',
+                            description: '',
+                            category: 'RECYCLING',
+                            points: 0
+                        };
+                        this.fetchActions();
+                    } catch (error) {
+                        console.error(error.response);
+                        alert('Erro ao criar ação: ' + (error.response ? error.response.data : error));
+                    }
+                },
+                async updateAction() {
+                    try {
+                        await axios.put(`/api/actions/${this.newAction.id}/`, this.newAction, {
+                            headers: { Authorization: `Bearer ${this.token}` }
+                        });
+                        this.newAction = { title: '', description: '', category: 'RECYCLING', points: 0 };
+                        this.fetchActions();
+                    } catch (error) {
+                        alert('Erro ao atualizar ação: ' + (error.response ? error.response.data : error));
+                    }
+                },
+                async deleteAction(id) {
+                    try {
+                        await axios.delete(`/api/actions/${id}/`)
+                        this.fetchActions()
+                    } catch (error) {
+                        alert('Erro ao excluir ação')
+                    }
+                },
+                editAction(action) {
+                    this.newAction = { ...action };
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

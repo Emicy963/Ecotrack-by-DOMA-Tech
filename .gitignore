@@ -1,0 +1,21 @@
+# Arquivos do Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Configuração do ambiente virtual
+venv/
+.env
+
+# Arquivos do banco de dados
+*.sqlite3
+
+# Mídia e arquivos estáticos gerados
+/media/
+/staticfiles/
+
+# Configurações do IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
