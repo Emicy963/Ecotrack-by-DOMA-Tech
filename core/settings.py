@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'ecotrack-domag-tech.onrender.com').split(',')
 
@@ -59,7 +59,10 @@ CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 .env/
 ALLOWED_HOSTS=seu-dominio.com,www.seu-dominio.com
 CORS_ALLOWED_ORIGINS=https://seu-dominio.com,https://www.seu-dominio.com"""
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://ecotrack-domag-tech.onrender.com",
+]
 CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
